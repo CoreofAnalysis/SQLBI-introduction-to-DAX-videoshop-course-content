@@ -1,0 +1,59 @@
++++CALCULATE :
+IS THE ONLY function in DAX that has the power of 
+changing and updating the filter context
+
++ Filters are evaluated in the outer filter context, 
+then combined together, and then finally used to build
+a new filter context into which DAX evaluates
+
+CALCULATE (
+	Expression,
+	Filter1,
+	...
+	Filter N // REpeated MANY TIMES, AS NEEDED
+)
+Example :
+Compute the sum of sales where the price is more 
+then 10000$.
+
+NumOfBigSales :=
+
+CALCULATE (
+	SUM (Sales[SalesAmount]),
+	Sales[SalesAmount] > 100
+)
+
+++ FIlTERS ARE TABLES
+Each filter is a table, boolean expressions are
+nothing but shortcuts for table EXPRESSIONS
+
+CALCULATE (
+	SUM(Sales[SalesAmount]),
+	Sales[SalesAmount] > 100
+)
+
+IS EQUIVALANT TO 
+
+CALCULATE(
+	SUM(Sales[SalesAmount]),
+	FILTER(
+		ALL(Sales[SalesAmount]),
+		Sales[SalesAmount] > 100
+	)
+)
+------------
+Clear filter on one column 
+CALCULATE (
+	SUMX(
+		Orders,
+		Orders[Amount]	
+	),
+	ALL( Orders[Channels])
+)	
+
+++ Calculate tasks:
+Partially replaces the filter context 
+Conditions
+	Can replace a whole table
+	Can replace a single column
+CALCULATE works on the filter context.

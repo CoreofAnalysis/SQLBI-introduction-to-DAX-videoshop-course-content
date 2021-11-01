@@ -1,0 +1,55 @@
+++ Evaluation Contexts And Relationship:
+
+bidirectionnal filtering 
+
+Do context interact with relationships ?
+Row Context 
+Filter Context
+One side
+Many side
+
+=----------------------
++ ROW CONTEXT :
+Does not propagate over relationships
+
+MANY TO ONE : RELATED
+ONE O MANY : RELATEDTABLE
+
+---
++ FILTER CONTEXT - Many Tables
+
+-Filter Context and relationships
+  Relationships affect filter context
+-Orders -> Products
+ Filter context on orders
+ follow the relationship
+ show only products of the selected orders
+
+=------------------------
++ CONTEXT TRANSITION :
+Calculate performs another task
+if executed inside a row context
+ - it takes the row context
+ - Transforms is into an equivalent filter
+ - Applies it to the data model
+ - before computung its expression
+
+Very important ans useful feature
+ - Better to learn it writing some 
+
+
+AUTOMATIC CALCULATE 
+
+Whenever a measure is cpmuted, an aitomaic CALCULATE
+id ADDED around the measure
+
+SUMX (
+	Orders,
+	[Sales Amount]
+)
+
+SUMX (
+	Orders,
+	CALCULATE ([Sales Amount])
+)
+ 

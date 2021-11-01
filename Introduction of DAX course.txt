@@ -1,0 +1,129 @@
+++ The DAX language:
+Language of
+	Power pivot
+	Power BI
+	SSAS Tabular 
+
+Important Differences 
+	No concept of Rows and columns 
+	Diff type system 
+
+DAX is a Functional Language 
+IF it is not formatted, its is not DAX:
+	Code formatting is of paramount importance in DAX.
+
+++ Calculated Columns :
+Always computed for the current row
+
+Line Amount = Sales[Unit Price]
+Age = IF (ISBLANK(Customer[Birth Date]), BLANK(),YEAR (TODAY()) - YEAR (Customer[Birth Date]))
+
+++ MEASURES:
+Written Using DAX 
+DO NOT work row by row 
+Instead, Use tables and aggregators
+DO NOT have the "Current ROW"
+	-GrossMargin {is a calculated Column and it can be a Measure}
+	-GrossMargin % {needs to be a Measure}
+Gross margin is the difference between revenue and cost of goods sold, 
+divided by revenue. 
+Gross margin is expressed as a percentage. 
+Generally, it is calculated as the selling price of an item, 
+less the cost of goods sold, 
+then divided by the same selling price.
+
+NOTE !! :
+	A measure is different fromm a calculated column, it's not Computed LINE BY LINE
+	Instead, it is computed on the aggregate level. So you first aggregate the VALUES
+	and then you PERFORM further calculations
+NOTE 2!:
+	Measures are not stored in the model for their values, 
+	only the CALCULATION is stored in the MODEL.
+	So the ALGORITHM that needs to be followed.
+	AND THEN measures are computed on the fly every time you run the QUERY.
+
+++ NAMING CONVENTION :
+Measures do not belong to a table
+	AVOID table name
+	[Margin%] Intead of Sales[Margin%]
+	Easier to move to another table 
+	Easier to identify as a measure 
+
+Thus:
+	Calculated columns Table[column]
+	Measures  [Measure]
+
+++ AGGREGATION FUNCTIONS :
+	useful to aggregate values 
+		SUM
+		AVERAGE
+		MIN
+		MAX
+	Work only on numeric columns
+	Aggregate only one column
+		SUM(Orders[price])
+		SUM(Orders[price]* Orders[Quantity])
+
+THE X AGGREGATORS:
+iterators : useful to aggregate formulas
+	SUMSX
+	AVERAGEX
+	MINX
+	MAXX
+ Iterate over the table and evaluate each row
+ Always Receive two Parameters
+	Table Iterate
+	Formula to evaluate for each row
+ SUMX (
+	Sales,
+	Sales[Price]* Sales[Quantity])
+
+++ USING VARIABLES:
+
+- Very Useful to avoid repeating subexpressions in your code 
+
+VAR
+	Totalquanity = SUM (Sales[Quantity])
+RETURN
+
+IF (
+	Totalquanity > 1000,
+	Totalquanity * 0.95,
+	Totalquanity * 1.25
+	)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+ 

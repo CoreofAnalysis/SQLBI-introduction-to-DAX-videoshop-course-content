@@ -1,0 +1,93 @@
+Basic functiond that work on full tables
+	FILTER
+	ALL
+	VALUES
+	DISTINCT
+	RELATEDTABLE
+Their result os often used in other full 
+They can be combined together
+
+++CALCULATED TABLES:
+in the newest versions of Tabular 
+you can create calculated tables
+
+++ Filtering tables
+SUMX(
+	FILTER(
+		Orders,
+		Orders[Price] > 1
+	),
+	Orders[Quantity] * Orders[Price]
+	)	
+FILTER :
+Adds a bew condition
+Restricts the number of rows of a table
+Returns a table
+Cab  be iterated by an "X" function
+
+Needs a table as input
+The input can be another filter
+
+++ REMOVING FILTERS:
+ ALL : is a very simple finctoin that retuns the full table you pass as
+	a parameter.
+
+ALl Sales Amount = 
+SUMX(
+	ALL(Sales),
+	Sales[Quantity] * Sales[Net Price] )
+Sales % = 
+	ALL:
+		Returns all the rows of a table 
+		Ignores the filter context
+		Returns a table
+		That can be iterated by an 'X' function
+	 Needs a table as input
+	 can br used with a single column 
+		ALL (Customers[CustomerName])
+		The result contains a table with one column 
+++ MIXING FILTERS :
+
+	Table functions can be mixed 
+	Each one requires a table
+	Each one return a table
+	FILTER ( ALL ( Table), Condition )
+		Puts a filter over the entire table
+		Ignores the current filter context
+
+++ DISTINCT :
+	Return the distinct values of a column, only the ones visible in the corrunt context
+
+	NumofProducts :=
+		COUNTROWS (
+			distinct (Product[ProductCode])
+
+++ RELATEDTABLE
+	Returns a table with all the rows related with the corrutn one.:
+	NumofProducts :=
+		COUNTROWS (
+			RELATEDTABLE( Product )
+
+	starts from the many side and gave me the access to the one side 
+	
+
+	Sales of Customer =
+		SUMX (
+			RELATEDTABLE (Sales),
+			Sales[Quanitty] * Sales [Net Price])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

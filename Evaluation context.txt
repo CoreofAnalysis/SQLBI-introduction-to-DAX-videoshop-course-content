@@ -1,0 +1,43 @@
+++Evaluation Context :
+
+	TotalSales := SUM (Sales[SalesAmount])
+	NOTE : Numbers are sliced by color, i.e. the formula 
+	is NOT computing sum of sales, it is computing it 
+	for only a subset of the data model
+
+THE VALUE OF A FORMAL DEPENDS ON ITS CONTEXT
++Sources of the context :
+	PivotTable Filter
+	Columns
+	Rows
+	Slicers
+
++ Rows outside of the filter context:
+	are not considered for the computation
++ Defined automatically by PivotTable
+
+++ ROW CONTEXT :
+	Defined by :
+		Calculated column defintion
+			Defined automatically for each row
+		Row Iteration functions :
+			SUMX, AVERAGEX
+			All X functions and iterators
+			Defined by the user formulas 
+	Needed to evaluate column values "current row"
+
+	SUMX (Orders, [Quantity]*[Price])
+
+++THERE ARE ALWAYS TWO CONTEXTS:
+	Filter context :
+		Filters tables 
+		Might be empty
+			all the tables are visible
+			but this never happens in the real world
+	Row context :
+		Iterates rows
+		for the rows active in the filter context	
+		might be empty 
+			There is no iteration running
+BOTH ARE EVALUATION CONTEXTS
+		

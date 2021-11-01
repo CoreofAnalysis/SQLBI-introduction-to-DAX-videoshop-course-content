@@ -1,0 +1,104 @@
+++ DATE TABLE :
+
+Time intelligence needs a date table
+ - built in DAX
+ - OR in a sql Table
+
+Date Table properties
+ - All dates should be present
+ - From 1 of January to 31 of December
+ - no holes
+ - Otherwise time intelligence will not work
+
+++ TABLE = CALENDARAUTO()
+
+++ 
+Dates = CALENDAR (
+	DATE( YEAR ( MIN (Sales[Order Date])),1,1),
+	DATE( YEAR ( MAX (Sales[Order Date])),12,31)
+)
+
+COLUMN :
+	Year = YEAR ( Dates[Date])
+	Month = MONTH( Dates[Date] 'mmm')
+=-------------------------------------
+++ WHAT IS TIME INTELLIGENCE?
+
+Many diffent topics in one name
+	Year to Date
+	Quarter to Date
+	Running Total 
+	Same Period previous year 
+	Working days computation
+	Fiscal Year
+
+In Short: Anything related with time
+	Handled in an intelligent way
+
+Line Margin YTD = 
+
+CALCULATE (
+	[Margin],
+	DATESYTD(Dates[Date])
+	//DATESYTD return the set of dates startung from
+	// the fst of january of the current year
+	// and going to the end of the currenlty selected period
+
+++ AGGREGATIONS OVER TIME:
+Many useful Aggregations
+
+YTD: Year to Date
+	
+QTD: Quarter to Date
+
+MTD: Month to Date
+
++ They all need a Calendar Table
++ Ans some understanding of CALCULATE
+
+++HANDELING FISCAL YEAR:
+
+The last optional, parameter is the end of the fiscal year
+Default: 21.31 (or 31/12 - local dependent)
+
+SalesAmountYTD :=
+
+TOTALYTD (
+	SUM (Sales[SalesAmount]),
+	'Date[Date]',
+	"06-30"
+)
+
+SalesAmountYTD :=
+CALCULATE (
+	SUM(Sales[SalesAmount]),
+	DATESYTD( 'Date'[Date],"06-30")
+)
+++ SAMEPERIODLASTYEAR()
+
+++ DATEADD( Dates[Date], -1, YEAR)
+
+++ running total :
+
+SalesAmountRT :=
+
+CALCULATE (
+	SUM(Sales[SalesAmount]),
+	FILTER (
+		ALL('Date'),
+		'Date'[Date] <= MAX('Date'[Date])
+	)	
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
